@@ -1,3 +1,6 @@
+import java.lang.Object;
+import java.util.Arrays;
+
 /**
  * This class provides a convenient way to test shuffling methods.
  */
@@ -30,7 +33,7 @@ public class Shuffler {
 
 		System.out.println("Results of " + SHUFFLE_COUNT +
 								 " consecutive efficient selection shuffles:");
-		int[] values2 = {0, 1, 2, 3};
+		int[] values2 = {1, 2, 3, 4};
 		for (int j = 1; j <= SHUFFLE_COUNT; j++) {
 			selectionShuffle(values2);
 			System.out.print("  " + j + ":");
@@ -50,7 +53,29 @@ public class Shuffler {
 	 * @param values is an array of integers simulating cards to be shuffled.
 	 */
 	public static void perfectShuffle(int[] values) {
-		/* *** TO BE IMPLEMENTED IN ACTIVITY 3 *** */
+		int[] stack1 = new int[values.length / 2];
+		int[] stack2 = new int[values.length / 2];
+		
+		for (int i = 0; i < values.length / 2; i++) {
+			stack1[i] = values[i];
+		}
+
+		int temp = 0;
+		
+		for (int x = values.length / 2; x < values.length; x++) {
+			stack2[temp] = values[x];
+			temp = temp + 1;
+		}
+		
+		temp = 0;
+		for (int n = 0; n < values.length - 1; n += 2) {
+			if (temp >= 2) {
+				temp = 1;
+			}
+			values[n] = stack1[temp];
+			values[n + 1] = stack2[temp];
+			temp += 1;
+		}
 	}
 
 	/**
@@ -65,6 +90,52 @@ public class Shuffler {
 	 * @param values is an array of integers simulating cards to be shuffled.
 	 */
 	public static void selectionShuffle(int[] values) {
-		/* *** TO BE IMPLEMENTED IN ACTIVITY 3 *** */
+		int random;
+		int[] temparray = values;
+		for(int x = 0; x < values.length; x++){
+			random = (int) ((values.length) * Math.random());
+			int temp = values[random];
+			temparray[random] = values[x];
+			values[x] = temp;
+		}
+	}
+	
+	public String flip() {
+		if (Math.random() <= (2/3)) {
+			return "heads";
+		} else {
+			return "tails";
+		}
+	}
+	
+	public static boolean arePermutations(int[] arr1, int[] arr2) {
+		int numUnequal = 0;
+		int isEqual = 0;
+		int[] tempArr1 = new int[arr1.length];
+		int[] tempArr2 = new int[arr2.length];
+		int value = 0;
+		
+		tempArr1 = arr1;
+		tempArr2 = arr2;
+		Arrays.sort(tempArr1);
+		Arrays.sort(tempArr2);
+		
+		if (tempArr1.length == tempArr2.length) {
+			for (int x = 0; x < arr1.length; x++) {
+				if (tempArr1[x] == tempArr2[x]) {
+					isEqual += 1;
+				}
+			}
+		}
+		
+		if (isEqual == arr1.length) {
+			for (int i = 0; i < arr1.length; i++) {
+				if (arr1[i] != arr2[i]) {
+					numUnequal += 1;
+				}
+			}
+		}
+		
+		return numUnequal == arr1.length;
 	}
 }
