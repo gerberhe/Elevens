@@ -38,6 +38,7 @@ public class Deck {
 		}
 		size = cards.size();
 		shuffle();
+		System.out.println(cards);
 	}
 
 
@@ -62,7 +63,12 @@ public class Deck {
 	 * and reset the size to represent the entire deck.
 	 */
 	public void shuffle() {
-		/* *** TO BE IMPLEMENTED IN ACTIVITY 4 *** */
+		for (int i = 0; i < cards.size(); i++) {
+			int random = (int) (Math.random() * (cards.size() - i));
+			Card rand = cards.get(random);
+			cards.set(random, cards.get(i));
+			cards.set(i, rand);
+		}
 	}
 
 	/**
